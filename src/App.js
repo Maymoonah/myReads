@@ -1,7 +1,8 @@
 import React from 'react';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
-import { link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 class BooksApp extends React.Component {
   state = {
@@ -11,7 +12,7 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: 'bookshelf',
+    // showSearchPage: 'bookshelf',
     query: '',
     results: [],
     currentlyReading: [],
@@ -33,14 +34,11 @@ class BooksApp extends React.Component {
   selectShelf(e, res) {
     if(e !== 'none') {
       if(e === 'currentlyReading') {
-        this.state.currentlyReading.push(res);
-        console.log(res);
+        console.log(this.state.currentlyReading);
       } else if(e === 'wantToRead') {
-        this.state.wantToRead.push(res);
-        console.log(res);
+        console.log(this.state.wantToRead);
       } else {
-        this.state.read.push(res);
-        console.log(res);
+        console.log(this.state.read);
       }
     }
   }
@@ -55,7 +53,7 @@ class BooksApp extends React.Component {
       return (
         <div className="search-books">
             <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: 'bookshelf'})}>Close</a>
+              <Link to='/' className="close-search">Close</Link>
               <div className="search-books-input-wrapper">
                 <input type="text" placeholder="Search by title or author" value={this.state.query} onChange={(e)=>this.onChange(e.target.value)}/>
                 
@@ -70,9 +68,8 @@ class BooksApp extends React.Component {
 
     return (
       <div className="app">
-      {/*render search page*/}
-        {this.state.showSearchPage === 'search' ? (
-          <div className="search-books">
+      <Route path='/search' render={() => (
+        <div className="search-books">
             <div className="search-books-bar">
               <a className="close-search" onClick={() => this.setState({ showSearchPage: 'bookshelf' })}>Close</a>
               <div className="search-books-input-wrapper">
@@ -91,7 +88,6 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">
               {result.map((res) => {
-              console.log(res);  
                 return (  
                 <li key={res.id}>            
                     <div className="book">
@@ -116,9 +112,10 @@ class BooksApp extends React.Component {
               </ol>
             </div>
           </div>
-        ) : (
-        {/*render book shelves*/},
-          <div className="list-books">
+      )}/>
+          
+        <Route exact path='/' render={() => (
+            <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
@@ -164,7 +161,7 @@ class BooksApp extends React.Component {
                           <div className="book-authors">Orson Scott Card</div>
                         </div>
                       </li>
-                      {--------------------------------------------------}
+                      
                     </ol>
                   </div>
                 </div>
@@ -275,13 +272,16 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: 'search', query: '', results: [] })}>Add a book</a>
+              <Link to='/search' onClick={() => this.setState({ showSearchPage: 'search', query: '', results: [] })}>Add a book</Link>
             </div>
           </div>
-        )}
+        )}/>
+          
+
+        
       </div>
-    )
-  }
-}
+    )  /*return*/
+  } /*render */
+} /*BooksApp*/
 
 export default BooksApp
