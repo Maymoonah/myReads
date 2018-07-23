@@ -22,7 +22,9 @@ class BooksApp extends React.Component {
     BooksAPI.search(this.state.query)
     .then(response => {
       this.setState({results: response});
-    });  
+    });
+
+
   }
 
   render() {
@@ -32,7 +34,7 @@ class BooksApp extends React.Component {
       return (
         <div className="search-books">
             <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: 'bookshelf' })}>Close</a>
+              <a className="close-search" onClick={() => this.setState({ showSearchPage: 'bookshelf'})}>Close</a>
               <div className="search-books-input-wrapper">
                 <input type="text" placeholder="Search by title or author" value={this.state.query} onChange={(e)=>this.onChange(e.target.value)}/>
                 
@@ -251,7 +253,7 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: 'search' })}>Add a book</a>
+              <a onClick={() => this.setState({ showSearchPage: 'search', query: '', results: [] })}>Add a book</a>
             </div>
           </div>
         )}
