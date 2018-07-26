@@ -53,8 +53,7 @@ class BooksApp extends React.Component {
 
   render() {
     const result = this.state.results;
-    const wantToBook = this.state.wantToRead;
-    const readBook = this.state.read;
+    const { currentlyReading, wantToRead, read } = this.state;
 
     if(!result) {
       return (
@@ -155,7 +154,7 @@ class BooksApp extends React.Component {
                           <div className="book-authors">Orson Scott Card</div>
                         </div>
                       </li>
-                      {this.state.currentlyReading.map((res) => {
+                      {currentlyReading.map((res) => {
 
                           //get the book we select by matching what we clicked with the book in the results array
                           const bookItem = this.state.results.filter(el => el.id === res.id);
@@ -207,6 +206,15 @@ class BooksApp extends React.Component {
                           <div className="book-authors">J.K. Rowling</div>
                         </div>
                       </li>
+                      {wantToRead.map((res) => {
+
+                          //get the book we select by matching what we clicked with the book in the results array
+                          const bookItem = this.state.results.filter(el => el.id === res.id);
+
+                          return (  
+                              <Book res={res} bookItem={bookItem} selectShelf={this.selectShelf}/>
+                          );
+                      })}
                     </ol>
                   </div>
                 </div>
@@ -268,6 +276,15 @@ class BooksApp extends React.Component {
                           <div className="book-authors">Mark Twain</div>
                         </div>
                       </li>
+                      {read.map((res) => {
+
+                          //get the book we select by matching what we clicked with the book in the results array
+                          const bookItem = this.state.results.filter(el => el.id === res.id);
+
+                          return (  
+                              <Book res={res} bookItem={bookItem} selectShelf={this.selectShelf}/>
+                          );
+                      })}
                     </ol>
                   </div>
                 </div>
