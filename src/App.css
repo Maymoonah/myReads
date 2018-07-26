@@ -12,8 +12,11 @@ body, .app {
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background-color: #2e5bc1;
   text-align: center;
+  font-family: 'Lobster Two', cursive;
+  color: #fff;
+  text-shadow: 4px 4px #000;
 }
 .list-books-title h1 {
   font-weight: 400;
@@ -38,7 +41,15 @@ body, .app {
 
 .bookshelf-title {
   border-bottom: 1px solid #dedede;
+  font-family: 'Righteous', cursive;
+  text-shadow: 2px 2px #579be5;
 }
+
+i {
+   padding: 4px 10px;
+  text-align: center;
+}
+
 .bookshelf-books {
   text-align: center;
 }
