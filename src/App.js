@@ -3,23 +3,28 @@ import * as BooksAPI from './BooksAPI';
 import './App.css';
 import { Link } from 'react-router-dom';
 import { Route } from 'react-router-dom';
+import Book from './book';
 
 class BooksApp extends React.Component {
-  state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    // showSearchPage: 'bookshelf',
-    query: '',
-    results: [],
-    currentlyReading: [],
-    wantToRead: [], 
-    read: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      /**
+       * TODO: Instead of using this state variable to keep track of which page
+       * we're on, use the URL in the browser's address bar. This will ensure that
+       * users can use the browser's back and forward buttons to navigate between
+       * pages, as well as provide a good URL they can bookmark and share.
+       */
+      // showSearchPage: 'bookshelf',
+      query: '',
+      results: [],
+      currentlyReading: [],
+      wantToRead: [], 
+      read: []
+    }
+    this.selectShelf = this.selectShelf.bind(this);
   }
-
+    
   onChange(e) {
     this.setState({query: e});
 
@@ -34,10 +39,13 @@ class BooksApp extends React.Component {
   selectShelf(e, res) {
     if(e !== 'none') {
       if(e === 'currentlyReading') {
+        this.setState({currentlyReading: res});
         console.log(res);
       } else if(e === 'wantToRead') {
+        this.setState({wantToRead: res});        
         console.log(res);
       } else {
+        this.setState({read: res});        
         console.log(res);
       }
     }
@@ -45,9 +53,8 @@ class BooksApp extends React.Component {
 
   render() {
     const result = this.state.results;
-    // const currentBook = this.state.currentlyReading;
-    // const wantToBook = this.state.wantToRead;
-    // const readBook = this.state.read;
+    const wantToBook = this.state.wantToRead;
+    const readBook = this.state.read;
 
     if(!result) {
       return (
@@ -88,30 +95,14 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">
               {result.map((res) => {
-                const self = this;
-                const bookItem = self.state.results.filter(el => el.id === res.id);
+
+                //get the book we select by matching what we clicked with the book in the results array
+                const bookItem = this.state.results.filter(el => el.id === res.id);
 
                 return (  
-                <li key={res.id}>            
-                    <div className="book">
-                      <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url('+ res.imageLinks.smallThumbnail +')' }}></div>
-                        <div className="book-shelf-changer">
-                          <select onChange={(e, r) => this.selectShelf(e.target.value, bookItem)}>
-                            <option value="none">Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">{res.title}</div>
-                      <div className="book-authors">{res.authors}</div>
-                    </div>
-                  </li>
-                  );
-          })}
+                  <Book res={res} bookItem={bookItem} selectShelf={this.selectShelf}/>
+                );
+              })}
               </ol>
             </div>
           </div>
@@ -164,7 +155,15 @@ class BooksApp extends React.Component {
                           <div className="book-authors">Orson Scott Card</div>
                         </div>
                       </li>
-                      
+                      {this.state.currentlyReading.map((res) => {
+
+                          //get the book we select by matching what we clicked with the book in the results array
+                          const bookItem = this.state.results.filter(el => el.id === res.id);
+
+                          return (  
+                              <Book res={res} bookItem={bookItem} selectShelf={this.selectShelf}/>
+                          );
+                      })}
                     </ol>
                   </div>
                 </div>
