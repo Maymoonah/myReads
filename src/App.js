@@ -277,7 +277,6 @@ class BooksApp extends React.Component {
                         </div>
                       </li>
                       {read.map((res) => {
-
                           //get the book we select by matching what we clicked with the book in the results array
                           const bookItem = this.state.results.filter(el => el.id === res.id);
 
