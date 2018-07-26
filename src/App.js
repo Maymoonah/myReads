@@ -34,20 +34,20 @@ class BooksApp extends React.Component {
   selectShelf(e, res) {
     if(e !== 'none') {
       if(e === 'currentlyReading') {
-        console.log(this.state.currentlyReading);
+        console.log(res);
       } else if(e === 'wantToRead') {
-        console.log(this.state.wantToRead);
+        console.log(res);
       } else {
-        console.log(this.state.read);
+        console.log(res);
       }
     }
   }
 
   render() {
     const result = this.state.results;
-    const currentBook = this.state.currentlyReading;
-    const wantToBook = this.state.wantToRead;
-    const readBook = this.state.read;
+    // const currentBook = this.state.currentlyReading;
+    // const wantToBook = this.state.wantToRead;
+    // const readBook = this.state.read;
 
     if(!result) {
       return (
@@ -88,13 +88,16 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">
               {result.map((res) => {
+                const self = this;
+                const bookItem = self.state.results.filter(el => el.id === res.id);
+
                 return (  
                 <li key={res.id}>            
                     <div className="book">
                       <div className="book-top">
                         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url('+ res.imageLinks.smallThumbnail +')' }}></div>
                         <div className="book-shelf-changer">
-                          <select onChange={(e, r) => this.selectShelf(e.target.value, res)}>
+                          <select onChange={(e, r) => this.selectShelf(e.target.value, bookItem)}>
                             <option value="none">Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
