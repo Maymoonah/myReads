@@ -4,6 +4,8 @@ import './App.css';
 import { Link } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Book from './book';
+import 'font-awesome/css/font-awesome.min.css'; 
+
 
 class BooksApp extends React.Component {
   constructor(props) {
@@ -39,13 +41,19 @@ class BooksApp extends React.Component {
   selectShelf(e, res) {
     if(e !== 'none') {
       if(e === 'currentlyReading') {
-        this.setState({currentlyReading: res});
+        this.setState({
+          currentlyReading: [...this.state.currentlyReading, res]
+        });
         console.log(res);
       } else if(e === 'wantToRead') {
-        this.setState({wantToRead: res});        
+        this.setState({
+          wantToRead: [...this.state.wantToRead, res]
+        });        
         console.log(res);
       } else {
-        this.setState({read: res});        
+        this.setState({
+          read: [...this.state.read, res]
+        });        
         console.log(res);
       }
     }
@@ -110,7 +118,7 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
             <div className="list-books">
             <div className="list-books-title">
-              <h1>MyReads</h1>
+              <h1><i className="fas fa-book-open"></i> MyReads</h1>
             </div>
             <div className="list-books-content">
               <div>
@@ -155,7 +163,6 @@ class BooksApp extends React.Component {
                         </div>
                       </li>
                       {currentlyReading.map((res) => {
-
                           //get the book we select by matching what we clicked with the book in the results array
                           const bookItem = this.state.results.filter(el => el.id === res.id);
 
